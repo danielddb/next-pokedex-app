@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port $PORT",
+    "start:local": "next start",
     "test": "jest --watchAll",
     "test:ci": "jest --ci --runInBand --coverage"
   },
