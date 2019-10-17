@@ -46,6 +46,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <title>Next JS Pokédex App</title>
           <link
             rel="shortcut icon"
             type="image/x-icon"
