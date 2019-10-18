@@ -66,10 +66,10 @@ workflows:
   version: 2.1
   build_and_test:
     jobs:
-      - build
+      - install
       - test:
           requires:
-            - build
+            - install
       - e2e:
           requires:
-            - build
+            - install
