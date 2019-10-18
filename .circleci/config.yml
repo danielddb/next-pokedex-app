@@ -41,6 +41,7 @@ jobs: # a collection of steps
             - .next
   e2e:
     <<: *defaults
+    parallelism: 4
     steps:
       - checkout
       - attach_workspace:
@@ -55,7 +56,7 @@ jobs: # a collection of steps
           command: npx wait-on http://localhost:3000
       - run:
           name: Run Cypress tests
-          command: npm run cypress:run
+          command: npm run cypress:run -- --record --key=abc123 --parallel
   test:
     <<: *defaults
     steps:
