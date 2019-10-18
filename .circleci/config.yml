@@ -36,10 +36,11 @@ jobs: # a collection of steps
           # taken to be the root directory of the workspace.
           root: *working_directory
           paths:
-            - .
+            - .next
   e2e:
     <<: *defaults
     steps:
+      - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - attach_workspace:
           at: *working_directory
       - run:
@@ -55,8 +56,7 @@ jobs: # a collection of steps
   test:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: *working_directory
+      - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - run: # run unit tests
           name: Run Jest tests
           command: npm run test:ci
