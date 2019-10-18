@@ -9,7 +9,9 @@
     "start": "next start --port $PORT",
     "start:local": "next start",
     "test": "jest --watchAll",
-    "test:ci": "jest --ci --runInBand --coverage"
+    "test:ci": "jest --ci --runInBand --coverage",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +36,7 @@
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.8",
     "babel-plugin-styled-components": "^1.10.6",
+    "cypress": "^3.4.1",
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "ts-jest": "^24.1.0",
