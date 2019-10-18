@@ -27,20 +27,15 @@ jobs: # a collection of steps
       - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - run:
           name: Install NPM
-          command: npm install
+          command: |
+            if [ ! -d node_modules ]; then
+              npm install
+            fi
       - save_cache: *save_dependency_cache # special step to save the dependency cache
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
-          root: *working_directory
-          paths:
-            - package-lock.json
   build:
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: *working_directory
       - restore_cache: *restore_dependency_cache
       - run: # run unit tests
           name: Build app
@@ -50,15 +45,14 @@ jobs: # a collection of steps
           # taken to be the root directory of the workspace.
           root: *working_directory
           paths:
-            - package-lock.json
             - .next
   e2e:
     <<: *defaults
     steps:
       - checkout
+      - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - attach_workspace:
           at: *working_directory
-      - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - run:
           name: Start
           background: true
@@ -73,8 +67,6 @@ jobs: # a collection of steps
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: *working_directory
       - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - run: # run unit tests
           name: Run Jest tests
