@@ -11,7 +11,7 @@
     "test": "jest --watchAll",
     "test:ci": "jest --ci --runInBand --coverage",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --record"
+    "cypress:run": "cypress run"
   },
   "keywords": [],
   "author": "",
