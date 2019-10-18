@@ -29,10 +29,20 @@ jobs: # a collection of steps
           name: Install NPM
           command: npm install
       - save_cache: *save_dependency_cache # special step to save the dependency cache
-      - run:
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: *working_directory
+          paths:
+            - package-lock.json
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache: *restore_dependency_cache
+      - run: # run unit tests
           name: Build app
           command: npm run build
-          # Persist the specified paths (.next) into the workspace for use in downstream job.
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
           # taken to be the root directory of the workspace.
@@ -41,7 +51,6 @@ jobs: # a collection of steps
             - .next
   e2e:
     <<: *defaults
-    parallelism: 4
     steps:
       - checkout
       - attach_workspace:
@@ -56,11 +65,13 @@ jobs: # a collection of steps
           command: npx wait-on http://localhost:3000
       - run:
           name: Run Cypress tests
-          command: npm run cypress:run -- --record --key=abc123 --parallel
+          command: npm run cypress:run
   test:
     <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: *working_directory
       - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - run: # run unit tests
           name: Run Jest tests
@@ -68,6 +79,7 @@ jobs: # a collection of steps
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: coverage
           prefix: coverage
+
 workflows:
   version: 2.1
   build_and_test:
