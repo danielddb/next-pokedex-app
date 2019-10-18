@@ -1,24 +1,31 @@
 version: 2.1 # use CircleCI 2.1
+
+aliases:
+  - &working_directory ~/next-pokedex-app
+  - &restore_dependency_cache
+    keys:
+      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+      - dependency-cache-v1-{{ checksum "package-lock.json" }}
+  - &save_dependency_cache
+    key: dependency-cache-{{ checksum "package-lock.json" }}
+    paths:
+      - ./node_modules
+
+defaults: &defaults
+  working_directory: *working_directory # directory where steps will run
+  docker: # run the steps with Docker
+    - image: circleci/node:10.13.0-browsers # ...with this image as the primary container; this is where all `steps` will run
+
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/next-pokedex-app # directory where steps will run
-    docker: # run the steps with Docker
-      - image: circleci/node:10.16.3 # ...with this image as the primary container; this is where all `steps` will run
+    <<: *defaults
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - restore_cache: *restore_dependency_cache # special step to restore the dependency cache
       - run:
           name: install-npm
           command: npm install
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
+      - save_cache: *save_dependency_cache # special step to save the dependency cache
       - run:
           name: build
           command: npm run build
@@ -26,16 +33,14 @@ jobs: # a collection of steps
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
           # taken to be the root directory of the workspace.
-          root: ~/next-pokedex-app
+          root: *working_directory
           paths:
             - .
   test:
-    working_directory: ~/next-pokedex-app
-    docker:
-      - image: circleci/node:10.16.3
+    <<: *defaults
     steps:
       - attach_workspace:
-          at: ~/next-pokedex-app
+          at: *working_directory
       - run: # run tests
           name: test
           command: npm run test:ci
