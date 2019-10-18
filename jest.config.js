@@ -11,6 +11,7 @@ module.exports = {
       tsConfig: 'tsconfig.jest.json'
     }
   },
+  modulePathIgnorePatterns: ['cypress'],
   moduleNameMapper: {
     '^test-utils$': '<rootDir>/src/test/test-utils',
     '^test-utils/(.*)$': '<rootDir>/src/test/$1'
