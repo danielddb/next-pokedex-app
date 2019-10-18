@@ -39,6 +39,8 @@ jobs: # a collection of steps
     <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: *working_directory
       - restore_cache: *restore_dependency_cache
       - run: # run unit tests
           name: Build app
@@ -48,6 +50,7 @@ jobs: # a collection of steps
           # taken to be the root directory of the workspace.
           root: *working_directory
           paths:
+            - package-lock.json
             - .next
   e2e:
     <<: *defaults
