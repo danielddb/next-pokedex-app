@@ -19,7 +19,7 @@ import {
 import { toTitleCase } from '../../src/utils/text';
 
 interface Props {
-  pokemon: any;
+  pokemon?: any;
 }
 
 const StyledTypeGrid = styled(Grid)<any>`
@@ -29,58 +29,64 @@ const StyledTypeGrid = styled(Grid)<any>`
 
 const PokemonResource: NextPage<Props> = ({ pokemon }) => (
   <Layout>
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader
-            avatar={
-              <Avatar
-                alt={pokemon.name}
-                src={getPokemonAvatarById(pokemon.id)}
-              />
-            }
-            title={toTitleCase(pokemon.name)}
-            subheader={pokemonIdFormatted(pokemon.id)}
-          />
-        </Card>
+    {pokemon ? (
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Card>
+            <CardHeader
+              avatar={
+                <Avatar
+                  alt={pokemon.name}
+                  src={getPokemonAvatarById(pokemon.id)}
+                />
+              }
+              title={toTitleCase(pokemon.name)}
+              subheader={pokemonIdFormatted(pokemon.id)}
+            />
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Types
+              </Typography>
+              <StyledTypeGrid component="ul" container spacing={1}>
+                {pokemon.types.map((type: any) => (
+                  <Grid component="li" item key={type.type.name}>
+                    <PokemonTypeChip type={type.type.name} />
+                  </Grid>
+                ))}
+              </StyledTypeGrid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Stats
+              </Typography>
+              <PokemonStatsProgress stats={pokemon.stats} />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Moves
+              </Typography>
+              <PokemonMovesList moves={pokemon.moves} />
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Types
-            </Typography>
-            <StyledTypeGrid component="ul" container spacing={1}>
-              {pokemon.types.map((type: any) => (
-                <Grid component="li" item key={type.type.name}>
-                  <PokemonTypeChip type={type.type.name} />
-                </Grid>
-              ))}
-            </StyledTypeGrid>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Stats
-            </Typography>
-            <PokemonStatsProgress stats={pokemon.stats} />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Moves
-            </Typography>
-            <PokemonMovesList moves={pokemon.moves} />
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+    ) : (
+      <Typography component="p">
+        Oops, the Pokemon you requested does not exist.
+      </Typography>
+    )}
   </Layout>
 );
 
