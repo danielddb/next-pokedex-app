@@ -4,3 +4,5 @@ Built with:
 
 - Next.js
 - TypeScript
+
+You can view the app at **https://next-js-pokedex-prod.herokuapp.com**
