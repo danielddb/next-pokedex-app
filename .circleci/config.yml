@@ -6,8 +6,6 @@ aliases:
     keys:
       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - v1-deps-{{ checksum "package-lock.json" }}
-      # fallback to using the latest cache if no exact match is found
-      - v1-deps-
   - &save_dependency_cache
     key: v1-deps-{{ checksum "package-lock.json" }}
     paths:
