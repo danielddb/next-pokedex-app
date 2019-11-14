@@ -6,7 +6,7 @@ interface Props {
   url: string | null;
 }
 
-const ResourceListLink: React.FC<Props> = ({ url, children }) => {
+const ResourceListLink: React.FC<Props> = ({ url, children, ...rest }) => {
   const parsedUrl = url && resourceListUrlParser(url);
   const pathname = parsedUrl ? `/${parsedUrl.resource}` : '/';
   const pageLimit = parsedUrl ? `${parsedUrl.pageLimit}` : '';
@@ -14,6 +14,7 @@ const ResourceListLink: React.FC<Props> = ({ url, children }) => {
 
   return (
     <ButtonLink
+      {...rest}
       href={{
         pathname,
         query: {

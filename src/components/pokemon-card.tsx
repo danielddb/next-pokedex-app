@@ -22,7 +22,7 @@ const PokemonCard: React.FC<Props> = ({ resource }) => {
   const pokemonImageUrl = getPokemonAvatarById(pokemonId);
 
   return (
-    <Card>
+    <Card data-testid="pokemon-card">
       <CardHeader
         avatar={<Avatar alt={resource.name} src={pokemonImageUrl} />}
         title={

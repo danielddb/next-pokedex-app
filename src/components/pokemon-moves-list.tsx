@@ -1,7 +1,7 @@
-import React from 'react';
-import { FixedSizeList } from 'react-window';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import React from 'react';
+import { FixedSizeList } from 'react-window';
 import { toTitleCase } from '../utils/text';
 
 interface Props {

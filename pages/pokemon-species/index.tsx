@@ -5,7 +5,7 @@ import ResourceList from '../../src/components/resource-list';
 import ResourceListModel from '../../src/models/resource-list';
 import { fetchResourceList } from '../../src/utils/api';
 
-interface Props {
+export interface Props {
   resourceList?: ResourceListModel;
   error?: string;
 }

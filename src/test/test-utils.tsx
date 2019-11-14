@@ -1,18 +1,34 @@
 import { render } from '@testing-library/react';
+import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { createTheme } from '../../src/theme';
 
 const theme = createTheme();
 
-const AllTheProviders: React.FC<{}> = ({ children }) => (
-  <ThemeProvider theme={theme}>
-    <>{children}</>
-  </ThemeProvider>
-);
+const AllTheProviders: React.FC<{
+  router?: any;
+}> = ({ children, router }) => {
+  const routerValue = router
+    ? router
+    : {
+        pathname: '/',
+        route: '/'
+      };
 
-const customRender = (ui: any, options?: any) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+  return (
+    <RouterContext.Provider value={routerValue}>
+      <ThemeProvider theme={theme}>
+        <>{children}</>
+      </ThemeProvider>
+    </RouterContext.Provider>
+  );
+};
+
+const customRender = (ui: any, wrapperProps?: any) =>
+  render(ui, {
+    wrapper: props => <AllTheProviders {...wrapperProps} {...props} />
+  });
 
 // re-export everything
 export * from '@testing-library/react';

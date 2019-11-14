@@ -1,14 +1,14 @@
-import React from 'react';
 import Chip from '@material-ui/core/Chip';
-import styled from 'styled-components';
 import blue from '@material-ui/core/colors/blue';
 import brown from '@material-ui/core/colors/brown';
 import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
 import pink from '@material-ui/core/colors/pink';
 import purple from '@material-ui/core/colors/purple';
 import red from '@material-ui/core/colors/red';
 import yellow from '@material-ui/core/colors/yellow';
-import grey from '@material-ui/core/colors/grey';
+import React from 'react';
+import styled from 'styled-components';
 import { toTitleCase } from '../utils/text';
 
 interface Props {
@@ -52,17 +52,25 @@ const StyledChip = styled(Chip)<{ type: string }>`
   ${props => {
     const colour = getColourByType(props.type);
 
-    if (!colour) return;
+    if (!colour) {
+      return;
+    }
 
     return `
-    background: ${colour};
-    color: ${props.theme.palette.getContrastText(colour)};
+      background: ${colour};
+      color: ${props.theme.palette.getContrastText(colour)};
     `;
   }}
 `;
 
 const PokemonTypeChip: React.FC<Props> = ({ type }) => {
-  return <StyledChip label={toTitleCase(type)} type={type} />;
+  return (
+    <StyledChip
+      label={toTitleCase(type)}
+      type={type}
+      data-testid="pokemon-type-chip"
+    />
+  );
 };
 
 export default PokemonTypeChip;

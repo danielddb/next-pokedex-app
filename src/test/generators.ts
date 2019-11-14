@@ -9,7 +9,7 @@ export const buildResource = (
   url: `https://pokeapi.co/api/v2/pokemon-species/${name}/`
 });
 
-interface BuildResourceListParams {
+export interface BuildResourceListParams {
   totalCount: number;
   resultsCount: number;
   hasNextUrl: boolean;

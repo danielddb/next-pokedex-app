@@ -8,13 +8,23 @@ interface Props {
 }
 
 const ResourceListNavigator: React.FC<Props> = ({ resourceList }) => {
-  const nextUrl = resourceList ? resourceList.next : '';
-  const previousUrl = resourceList ? resourceList.previous : '';
+  const nextUrl = resourceList ? resourceList.next : null;
+  const previousUrl = resourceList ? resourceList.previous : null;
 
   return (
     <ButtonGroup variant="outlined">
-      <ResourceListLink url={previousUrl}>Previous</ResourceListLink>
-      <ResourceListLink url={nextUrl}>Next</ResourceListLink>
+      <ResourceListLink
+        data-testid="resource-list-navigator-prev"
+        url={previousUrl}
+      >
+        Previous
+      </ResourceListLink>
+      <ResourceListLink
+        data-testid="resource-list-navigator-next"
+        url={nextUrl}
+      >
+        Next
+      </ResourceListLink>
     </ButtonGroup>
   );
 };
